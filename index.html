@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Simple tool to generate a random color.">
   <title>Random Color Generator</title>
+  <link id="favicon" rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23ffffff'/></svg>">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.6.1/randomColor.min.js"></script>
   <style>
     body {
@@ -110,28 +112,38 @@
   </div>
 
   <script type="module">
-    import { createApp } from 'https://unpkg.com/petite-vue?module'
+    import { createApp } from 'https://unpkg.com/petite-vue?module';
 
     function generateColor() {
-      const options = {}
-      if (this.hue) options.hue = this.hue
-      if (this.luminosity) options.luminosity = this.luminosity
-      this.color = randomColor(options)
+      const options = {};
+      if (this.hue) options.hue = this.hue;
+      if (this.luminosity) options.luminosity = this.luminosity;
+      this.color = randomColor(options);
+      this.updateFavicon(this.color);
     }
 
-    const hue = ''
-    const luminosity = ''
-    const color = ''
+    function updateFavicon(color) {
+      const svg = `
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+            <rect width="100" height="100" fill="${color}"/>
+          </svg>
+        `;
+      const favicon = document.getElementById('favicon');
+      favicon.href = `data:image/svg+xml,${encodeURIComponent(svg)}`;
+    }
 
-
+    const hue = '';
+    const luminosity = '';
+    const color = '';
 
     createApp({
       hue,
       luminosity,
       color,
       generateColor,
+      updateFavicon,
       mounted() {
-        this.generateColor()
+        this.generateColor();
 
         document.addEventListener('keydown', (event) => {
           if (event.code === 'Space') {
@@ -140,7 +152,7 @@
           }
         });
       }
-    }).mount()
+    }).mount();
   </script>
 </body>
 
