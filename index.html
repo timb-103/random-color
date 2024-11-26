@@ -29,6 +29,11 @@
       width: 100%;
     }
 
+    h1 {
+      font-size: 18px;
+      margin-top: 0;
+    }
+
     .form-group {
       margin-bottom: 1rem;
     }
@@ -80,6 +85,8 @@
 <body :style="{ 'background-color': color }" @vue:mounted="mounted">
   <div id="app">
     <div class="container">
+      <h1>Random Color</h1>
+      <p>Simple tool to generate a random color.</p>
       <div class="form-group">
         <label for="hue">Hue:</label>
         <select id="hue" v-model="hue">
