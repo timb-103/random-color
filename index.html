@@ -110,7 +110,7 @@
           <option value="dark">Dark</option>
         </select>
       </div>
-      <button @click="generateColor">Generate Color</button>
+      <button @click="generateColor(true)">Generate Color</button>
       <div class="color-display">
         Current Color: {{ color }}
       </div>
@@ -123,13 +123,22 @@
   <script type="module">
     import { createApp } from 'https://unpkg.com/petite-vue?module';
 
-    function generateColor() {
+    function generateColor(setFavicon) {
       const options = {};
-      if (this.hue) options.hue = this.hue;
-      if (this.luminosity) options.luminosity = this.luminosity;
+      
+      if (this.hue) {
+        options.hue = this.hue;
+      }
+      if (this.luminosity) {
+        options.luminosity = this.luminosity;
+      }
+
       this.color = randomColor(options);
-      this.updateFavicon(this.color);
       window.plausible('random-color:generated')
+
+      if (setFavicon === true) {
+        this.updateFavicon(this.color);
+      }
     }
 
     function updateFavicon(color) {
@@ -153,12 +162,12 @@
       generateColor,
       updateFavicon,
       mounted() {
-        this.generateColor();
+        this.generateColor(false);
 
         document.addEventListener('keydown', (event) => {
           if (event.code === 'Space') {
             event.preventDefault();
-            this.generateColor();
+            this.generateColor(true);
           }
         });
       }
